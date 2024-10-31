@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmihangy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: irazafim <irazafim@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:15:59 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/10/07 09:52:17 by pmihangy         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:55:49 by irazafim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ bool	has_operator_with_pipe(t_token *token)
 t_ast	*create_cmd(t_token *token_root)
 {
 	t_ast	*ast;
-	int	size;
+	//int	size;
 	int	i;
-
+	
 	ast = malloc(sizeof(t_ast));
 	IF_RETURN(!ast, NULL)
 	ast->text = token_root->text;
@@ -370,7 +370,7 @@ bool	fill_left_with_pipe_parent(t_ast **ast, t_token *last)
 				(*ast)->left->right->parent = (*ast)->left;
 				if (last->next->next->identifier == ARGUMENT)
 				{
-					(*ast)->left->right->argv = insert_argv(last->next);
+					(*ast)->left->right->argv = insert_argv(last);
 					IF_RETURN((*ast)->left->right->argv == NULL, false)
 				}
 			}
@@ -416,7 +416,7 @@ bool	fill_left_with_pipe(t_ast **ast, t_token *last)
 		}
 		else if (is_operator(last->text[0]) && !is_operator(last->next->text[0]))
 		{
-			(*ast)->left->right = new_node(last->next); 		
+			(*ast)->left->right = new_node(last); 		
 			IF_RETURN((*ast)->left->right, false)
 			(*ast)->left->right->parent = malloc(sizeof(t_ast));
 			IF_RETURN((*ast)->left->right->parent == NULL, false)
@@ -478,7 +478,7 @@ bool	create_ast_with_pipe(t_ast **ast, t_token *last)
 		(*ast)->right->parent = *ast;
 		if (last->next->next)
 		{
-			(*ast)->right->argv = insert_argv(last->next);
+			(*ast)->right->argv = insert_argv(last);
 			IF_RETURN((*ast)->right->argv == NULL, false)
 		}
 	}

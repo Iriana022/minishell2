@@ -6,7 +6,7 @@
 /*   By: irazafim <irazafim@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 12:13:11 by pmihangy          #+#    #+#             */
-/*   Updated: 2024/10/24 07:36:20 by irazafim         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:49:45 by irazafim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ bool	repl(char ***env, char *path)
 			ast_root = parse(token_root);
 			if (ast_root == NULL)
 				return (free(entry), false);
+			print_ast(ast_root, 0);
+			exit(69);
 			t_verif	*verify = validate(token_root, path, builtins);
 			IF_RETURN(!verify, false)
 			if (!verify->res)
@@ -124,7 +126,9 @@ bool	repl(char ***env, char *path)
 // - EXEC BY TRAVERSING THE AST
 int	main(int ac, char **av, char **env)
 {
-	int		i;
+	//int		i;
+	(void)ac;
+	(void)av;
 	char	*path;
 
 	path = get_path(env);
